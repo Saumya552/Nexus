@@ -1,0 +1,314 @@
+/* ==========================================================================
+   Module Extensions: Climate Analytics, Live Weather, User Management
+   Appended to the NEXUS design system
+   ========================================================================== */
+
+/* ==========================================================================
+   SHARED: Animated counter
+   ========================================================================== */
+.count-up { transition: all 0.5s ease; }
+
+/* ==========================================================================
+   MODULE 1: CLIMATE ANALYTICS
+   ========================================================================== */
+
+/* Summary row at top */
+.climate-summary-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 28px;
+}
+
+.climate-kpi {
+    background: var(--surface-light);
+    border: 1px solid rgba(255,255,255,0.05);
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.climate-kpi:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 30px var(--theme-bg-glow);
+}
+.climate-kpi::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: var(--theme-accent);
+    box-shadow: var(--theme-glow);
+    transition: background var(--transition-theme);
+}
+.climate-kpi .kpi-icon { font-size: 28px; color: var(--theme-accent); margin-bottom: 8px; display: block; transition: color var(--transition-theme); }
+.climate-kpi .kpi-label { font-size: 11px; font-family: var(--font-heading); color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+.climate-kpi .kpi-value { font-size: 32px; font-weight: 800; color: var(--text-primary); font-family: var(--font-heading); line-height: 1; }
+.climate-kpi .kpi-unit { font-size: 13px; color: var(--text-secondary); font-weight: 400; margin-left: 4px; }
+
+/* Ring progress */
+.ring-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 28px;
+}
+
+.ring-card {
+    background: var(--surface-light);
+    border: 1px solid rgba(255,255,255,0.05);
+    padding: 32px 24px;
+    display: flex; flex-direction: column; align-items: center; gap: 16px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.ring-card:hover { transform: translateY(-4px); box-shadow: 0 0 30px var(--theme-bg-glow); }
+.ring-card::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 10px; height: 10px;
+    border-top: 2px solid var(--theme-accent); border-left: 2px solid var(--theme-accent);
+}
+
+.ring-title { font-family: var(--font-heading); font-size: 13px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; text-align: center; }
+.ring-value { font-family: var(--font-heading); font-size: 22px; font-weight: 800; color: var(--text-primary); text-align: center; }
+
+/* SVG Ring */
+.ring-svg { position: relative; width: 120px; height: 120px; }
+.ring-svg circle { fill: none; stroke-width: 10; stroke-linecap: round; }
+.ring-track { stroke: rgba(255,255,255,0.06); }
+.ring-fill { stroke: var(--theme-accent); filter: drop-shadow(0 0 6px var(--theme-accent)); transition: stroke-dashoffset 1.5s cubic-bezier(0.25, 1, 0.5, 1), stroke var(--transition-theme); }
+.ring-pct { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: var(--font-heading); font-size: 18px; font-weight: 800; color: var(--text-primary); }
+
+/* AQI Bar */
+.aqi-bar-wrap { margin: 12px 0; }
+.aqi-label-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; color: var(--text-secondary); }
+.aqi-bar-track { height: 12px; background: rgba(255,255,255,0.06); border-radius: 6px; overflow: hidden; position: relative; }
+.aqi-bar-fill { height: 100%; border-radius: 6px; transition: width 1.5s cubic-bezier(0.25, 1, 0.5, 1); position: relative; }
+.aqi-bar-fill::after { content: ''; position: absolute; top: 0; right: 0; width: 4px; height: 100%; background: rgba(255,255,255,0.5); border-radius: 6px; }
+.aqi-zones { display: flex; margin-top: 6px; gap: 2px; font-size: 10px; color: var(--text-muted); justify-content: space-between; }
+
+/* Region Cards */
+.region-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.region-card {
+    background: var(--surface-dark);
+    border: 1px solid rgba(255,255,255,0.04);
+    padding: 20px;
+    position: relative; overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: default;
+}
+.region-card:hover {
+    border-color: var(--theme-border);
+    background: var(--surface-light);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4), 0 0 20px var(--theme-bg-glow);
+}
+.region-card::after {
+    content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px;
+    background: linear-gradient(to right, var(--theme-accent), transparent);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s ease;
+}
+.region-card:hover::after { transform: scaleX(1); }
+
+.region-name { font-family: var(--font-heading); font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; }
+.region-stat { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 14px; }
+.region-stat .label { color: var(--text-muted); }
+.region-stat .val { font-weight: 700; color: var(--text-primary); }
+.score-badge { display: inline-block; padding: 3px 10px; font-size: 12px; font-family: var(--font-heading); font-weight: 700; border: 1px solid; border-radius: 2px; }
+
+/* ==========================================================================
+   MODULE 2: LIVE WEATHER
+   ========================================================================== */
+
+/* City selector */
+.weather-city-select {
+    background: var(--surface-dark);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--text-primary);
+    padding: 12px 16px;
+    font-family: var(--font-heading);
+    font-size: 14px;
+    font-weight: 600;
+    width: 200px;
+    cursor: pointer;
+}
+
+/* Main weather hero */
+.weather-hero {
+    background: var(--surface-light);
+    border: 1px solid rgba(255,255,255,0.05);
+    padding: 36px;
+    margin-bottom: 24px;
+    position: relative; overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: center;
+}
+.weather-hero::before {
+    content: ''; position: absolute; top: -50%; right: -10%; width: 300px; height: 300px;
+    border-radius: 50%; background: var(--theme-bg-glow);
+    filter: blur(80px); pointer-events: none;
+    transition: background var(--transition-theme);
+}
+
+.weather-main-temp {
+    font-family: var(--font-heading); font-size: 80px; font-weight: 900;
+    line-height: 1; color: var(--text-primary);
+}
+.weather-main-temp .unit { font-size: 36px; color: var(--text-secondary); }
+.weather-city-name { font-family: var(--font-heading); font-size: 20px; color: var(--theme-accent); margin-bottom: 4px; transition: color var(--transition-theme); }
+.weather-condition { font-size: 16px; color: var(--text-secondary); margin-bottom: 16px; }
+.weather-updated { font-size: 11px; color: var(--text-muted); font-family: var(--font-heading); }
+
+/* Weather Stats grid */
+.weather-stats-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+}
+.weather-stat-item {
+    background: rgba(0,0,0,0.3);
+    padding: 16px; border: 1px solid rgba(255,255,255,0.04);
+}
+.weather-stat-item .ws-label { font-size: 11px; color: var(--text-muted); font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.weather-stat-item .ws-value { font-size: 22px; font-weight: 700; color: var(--text-primary); font-family: var(--font-heading); }
+.weather-stat-item .ws-unit { font-size: 12px; color: var(--text-secondary); }
+.weather-stat-item i { font-size: 20px; color: var(--theme-accent); float: right; margin-top: -4px; transition: color var(--transition-theme); }
+
+/* Solar efficiency badge */
+.solar-badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--theme-bg-glow); border: 1px solid var(--theme-border);
+    padding: 12px 20px; margin-bottom: 24px;
+    font-family: var(--font-heading); font-size: 14px; color: var(--theme-accent);
+    transition: all var(--transition-theme);
+}
+.solar-badge i { font-size: 20px; }
+
+/* Forecast cards strip */
+.forecast-strip {
+    display: flex; gap: 16px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 24px;
+    scrollbar-width: thin; scrollbar-color: var(--theme-border) transparent;
+}
+.forecast-strip::-webkit-scrollbar { height: 4px; }
+.forecast-strip::-webkit-scrollbar-thumb { background: var(--theme-border); border-radius: 4px; }
+
+.forecast-card {
+    flex-shrink: 0; width: 110px;
+    background: var(--surface-light);
+    border: 1px solid rgba(255,255,255,0.05);
+    padding: 16px 12px; text-align: center;
+    transition: all 0.3s ease; cursor: default;
+}
+.forecast-card:hover {
+    border-color: var(--theme-border);
+    box-shadow: 0 0 20px var(--theme-bg-glow);
+    transform: translateY(-3px);
+}
+.forecast-card.today { border-color: var(--theme-border); background: var(--theme-bg-glow); }
+.forecast-day { font-size: 11px; font-family: var(--font-heading); color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; }
+.forecast-icon { font-size: 28px; margin-bottom: 8px; }
+.forecast-hi { font-size: 18px; font-weight: 700; color: var(--text-primary); }
+.forecast-lo { font-size: 12px; color: var(--text-muted); }
+.forecast-rain { font-size: 11px; color: #4ea8de; margin-top: 4px; }
+
+/* Rain bar */
+.rain-bar-wrap { margin: 16px 0; }
+.rain-bar-track { height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
+.rain-bar-fill { height: 100%; background: linear-gradient(to right, #4ea8de, #1d6fa4); border-radius: 4px; transition: width 1.5s cubic-bezier(0.25, 1, 0.5, 1); }
+
+/* ==========================================================================
+   MODULE 3: USER MANAGEMENT
+   ========================================================================== */
+
+/* Stats bar */
+.um-stats-row {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 24px;
+}
+.um-stat {
+    background: var(--surface-light);
+    border: 1px solid rgba(255,255,255,0.05);
+    padding: 24px; display: flex; align-items: center; gap: 20px;
+}
+.um-stat i { font-size: 36px; color: var(--theme-accent); flex-shrink: 0; transition: color var(--transition-theme); }
+.um-stat-val { font-family: var(--font-heading); font-size: 36px; font-weight: 800; color: var(--text-primary); line-height: 1; }
+.um-stat-lbl { font-size: 12px; color: var(--text-muted); font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+/* Search + Add row */
+.um-toolbar {
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 16px;
+}
+.um-search {
+    flex-grow: 1; max-width: 400px;
+    padding: 14px 16px; background: var(--surface-dark);
+    border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary);
+    font-family: var(--font-body); font-size: 15px;
+}
+.um-search:focus { border-color: var(--theme-accent); }
+
+/* Role badges */
+.role-badge {
+    display: inline-block; padding: 3px 10px; font-size: 11px;
+    font-family: var(--font-heading); font-weight: 700; letter-spacing: 1px;
+    border: 1px solid; text-transform: uppercase;
+}
+.role-admin    { color: var(--theme-accent); border-color: var(--theme-border); background: var(--theme-bg-glow); transition: all var(--transition-theme); }
+.role-operator { color: #ffe66d; border-color: rgba(255,230,109,0.3); background: rgba(255,230,109,0.05); }
+.role-analyst  { color: #00ff66; border-color: rgba(0,255,102,0.3); background: rgba(0,255,102,0.05); }
+.role-user     { color: var(--text-secondary); border-color: rgba(140,155,175,0.3); background: transparent; }
+
+/* Status dot */
+.status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
+.status-active    { background: #00ff66; box-shadow: 0 0 6px #00ff66; }
+.status-offline   { background: var(--text-muted); }
+.status-suspended { background: #ff003c; box-shadow: 0 0 6px #ff003c; }
+
+/* Action buttons in table */
+.um-btn { padding: 6px 14px; font-family: var(--font-heading); font-size: 11px; font-weight: 700; letter-spacing: 1px; border: 1px solid; text-transform: uppercase; transition: all 0.2s; cursor: pointer; background: transparent; }
+.um-btn-edit { color: var(--theme-accent); border-color: var(--theme-border); }
+.um-btn-edit:hover { background: var(--theme-accent); color: var(--bg-black); }
+.um-btn-del { color: #ff003c; border-color: rgba(255,0,60,0.3); }
+.um-btn-del:hover { background: #ff003c; color: #fff; }
+
+/* Pagination */
+.um-pagination { display: flex; justify-content: center; gap: 8px; margin-top: 24px; }
+.um-page-btn { padding: 8px 14px; background: var(--surface-dark); border: 1px solid rgba(255,255,255,0.1); color: var(--text-secondary); font-family: var(--font-heading); font-size: 13px; cursor: pointer; transition: all 0.2s; }
+.um-page-btn:hover, .um-page-btn.active { border-color: var(--theme-border); color: var(--theme-accent); background: var(--theme-bg-glow); }
+
+/* Modal */
+.nexus-modal-overlay {
+    position: fixed; inset: 0; z-index: 9000;
+    background: rgba(3, 5, 8, 0.85);
+    backdrop-filter: blur(6px);
+    display: flex; align-items: center; justify-content: center;
+    animation: fadeIn 0.2s ease;
+}
+.nexus-modal {
+    background: var(--surface-light);
+    border: 1px solid var(--theme-border);
+    box-shadow: 0 0 60px rgba(0, 243, 255, 0.15);
+    width: 100%; max-width: 520px; padding: 40px;
+    position: relative;
+    animation: slideUpFade 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.nexus-modal::before {
+    content: ''; position: absolute; top: -1px; left: -1px;
+    width: 24px; height: 24px;
+    border-top: 2px solid var(--theme-accent); border-left: 2px solid var(--theme-accent);
+}
+.nexus-modal::after {
+    content: ''; position: absolute; bottom: -1px; right: -1px;
+    width: 24px; height: 24px;
+    border-bottom: 2px solid var(--theme-accent); border-right: 2px solid var(--theme-accent);
+}
+.modal-title { font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--theme-accent); margin-bottom: 28px; text-transform: uppercase; transition: color var(--transition-theme); }
+.modal-close { position: absolute; top: 16px; right: 16px; font-size: 24px; color: var(--text-muted); cursor: pointer; transition: color 0.2s; background: none; border: none; }
+.modal-close:hover { color: #ff003c; }
+.modal-actions { display: flex; gap: 16px; margin-top: 24px; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Activity Log Table */
+.log-table td { font-size: 13px; padding: 12px 16px; }
+.log-action { color: var(--theme-accent); font-family: var(--font-heading); font-size: 12px; transition: color var(--transition-theme); }
