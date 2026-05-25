@@ -1,4 +1,4 @@
-# NExus Weather report 
+# Nexus Weather report 
 # 🌦️ Weather Detection & Climate Prediction System
 
 A modern Laravel MVC-based Weather Detection and Climate Prediction web application designed to monitor weather conditions, manage climate data, and provide intelligent forecasting through a responsive dashboard.
